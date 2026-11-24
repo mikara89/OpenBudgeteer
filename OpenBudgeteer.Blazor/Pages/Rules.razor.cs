@@ -98,7 +98,9 @@ public partial class Rules : ComponentBase
 
     private async Task ShowEditRuleSetDialog(RuleSetViewModel? ruleSet)
     {
-        var dialogDataContext = ruleSet ?? RuleSetViewModel.CreateEmpty(ServiceManager); 
+        var dialogDataContext = ruleSet is null
+            ? RuleSetViewModel.CreateEmpty(ServiceManager)
+            : (RuleSetViewModel)ruleSet.Clone();
         var parameters = new DialogParameters<EditRuleSetDialog>
         {
             { x => x.Title, ruleSet is null ? "Create Rule" : "Edit Rule" },
